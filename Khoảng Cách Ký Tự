@@ -1,0 +1,56 @@
+Cho một xâu S chỉ bao gồm các kí tự in hoa (A -> Z)
+Ta định nghĩa giá trị của xâu S là tổng bình phương số lần xuất hiện mỗi ký tự trong xâu
+Ví dụ với xâu S[] = "AAABBCD" ta có F(S) = 3^2 + 2^2 + 1^2 + 1^2 = 15
+Hãy tìm giá trị nhỉ nhất của xâu S sau khi loại bỏ K kí tự
+
+Input
+Dòng đầu tiên đưa vào số lượng test (T <= 100)
+Mỗi test gồm 2 số n và k
+
+Output 
+Đưa ra giá tị nhỏ nhất của mỗi test theo từng dòng
+
+
+Input
+2
+0 ABCC
+1 ABCC
+
+Output
+6
+3
+
+void solve(){
+    int k; cin >> k;
+    string s; cin >> s;
+    if (k >= s.size()){
+        cout << 0 << '\n';
+        return;
+    }
+
+    int cnt[300] = {0};
+    for (int i = 0; i < s.size(); i++) cnt[s[i] - 'A']++;
+    priority_queue<int,vector<int>> q;
+    for (int i = 0; i < 299; i++){
+        if (cnt[i] >= 1) q.push(cnt[i]);
+    }
+    while (q.size() && k--){
+        int x = q.top();
+        q.pop();
+        q.push(--x);
+    }
+    long long ans = 0;
+    while (q.size()){
+        ans += q.top() * q.top();
+        q.pop();
+    }
+    cout << ans << endl;
+}
+
+int main(){
+    int t; cin >> t;
+    while (t--){
+        solve();
+    }
+    return 0;
+}
