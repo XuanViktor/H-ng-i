@@ -1,0 +1,15 @@
+bool cmp(pair<int,int> a, pair<int,int> b){
+    return a.second < b.second;
+}
+
+int main(){
+    priority_queue<pair<int,int>, vector<pair<int,int>>, decltype(&cmp)> Q(cmp);
+    Q.push({2,5});
+    Q.push({3,4});
+    Q.push({4,7});
+    while (!Q.empty()){
+        cout << Q.top().first << ' ' << Q.top().second << endl;
+        Q.pop();
+    }
+    return 0;
+}
