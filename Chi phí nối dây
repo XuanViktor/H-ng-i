@@ -1,0 +1,45 @@
+Cho N sợi dây với đồ dài khác nhau được lưu trong mảng A[]. Nhiệm vụ của bạn là nối N sợi dây thành một sợi sao cho tổng chi phí nối dây là nhỏ nhất. Biết chi phí nối sợi dây thứ i và sợi dây thứ j là tổng độ dài hai sợi dây A[i] và A[j]
+
+Input
+Dòng đầu số lượng test
+Mỗi test gồm:
+Dòng đầu gồm số n
+Dòng hai gồm các giá trị của mảng a[n]
+
+Output 
+Đưa ra mỗi test là chí phí nối dây ngắn nhất
+
+2
+4
+4 3 2 6
+5
+4 2 7 6 9
+
+Ví dụ với
+4 3 2 6
+giải thích
+ta có chi phí nối 2 + 3 = 5
+sau đó ta lấy dây mới nối 5 + 4 = 9
+tiếp tục lấy 9 + 6 = 15
+=> tổng chi phí 29
+
+
+int main(){
+    int t; cin >> t;
+    while(t--){
+        int n; cin >> n;
+        int a[n];
+        FOR(i,0,n) cin >> a[i];
+        priority_queue<int,vector<int>, greater<int>> pq;
+        for (int x : a) pq.push(x);
+        ll ans = 0;
+        while (pq.size() > 1){
+            long long top1 = pq.top(); pq.pop();
+            long long top2 = pq.top(); pq.pop();
+            ans += top1 + top2;
+            pq.push(top1 + top2);
+        }
+        cout << ans << endl;
+    }
+}
+
