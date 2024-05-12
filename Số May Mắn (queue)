@@ -1,0 +1,43 @@
+Số may mắn là số chỉ chứa 2 chữ số 8 và 6. Ví dụ 6,8,66,68,... là các số may mắn. An và các bạn chơi trò đếm số may mắn trong đoạn [a,b] 
+có bao nhiêu số may mắn, ai đoán được số gần nhất với số lượng may mắn sẽ được một túi kẹo
+
+Input 
+Dòng đầu tiên là số lượng test
+Dòng tiếp theo là 2 số a , b cách nhau khoảng trắng
+
+Output 
+In ra số lượng số may mắn trong đoạn [a,b]
+
+queue<pair<long long,int>> q;
+vector<long long> v;
+
+void sinh68(){
+    q.push({6,1});
+    q.push({8,1});
+    while (q.size()){
+        pair<long long, int> t = q.front(); q.pop();
+        v.push_back(t.first);
+        if (t.second == 18) continue;
+        q.push({t.first*10 + 6, t.second + 1});
+        q.push({t.first*10 + 8, t.second + 1});
+    }
+}
+
+
+void solve(){
+    long long a, b; cin >> a >> b;
+    int pos1 = lower_bound(begin(v), end(v), a) - begin(v);
+    int pos2 = upper_bound(begin(v), end(v), b) - begin(v);
+    cout << pos2 - pos1 << endl;
+}
+
+
+int main(){
+    sinh68();
+    sort(begin(v), end(v));
+    int t; cin >> t;
+    while (t--){
+        solve();
+    }
+
+}
