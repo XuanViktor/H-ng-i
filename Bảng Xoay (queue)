@@ -1,0 +1,81 @@
+Có một chiếc bảng hình chữ nhật với 6 miếng ghép, trên mỗi miếng ghép
+được điền một số nguyên trong khoảng từ 1 đến 6. Tại mỗi bước, chọn một hình vuông ( bên trái hoặc bên phải) rồi quay theo chiều kim đồng hồ
+
+   4 1 3      <=     1 2 3    =>   1 5 2
+   5 2 6             4 5 6         4 6 3
+
+Yêu cầu: Cho một trạng thái của bảng, hãy tính số phép biến đổi ít nhất để đưa bảng đến trạng thái đích.
+
+Input
+Dòng đầu tiên ghi số lượng bộ test
+Mỗi test gồm 2 dòng
+Dòng đầu tiên chứa 6 số là trạng thái bảng ban đầu
+Dòng thứ hai chứa 6 số là trạng thái bảng đích
+
+Output 
+với mỗi test, in ra một số nguyên là đáp án số của bài toán
+
+
+Input
+1
+1 2 3 4 5 6
+4 1 2 6 5 3
+
+Output
+2
+
+#include "bits/stdc++.h"
+using namespace std;
+
+#define FOR(i, a, b)  for (int i = (a); i < (b); ++i) 
+
+struct node{
+    int a,b,c,d,e,f;
+};
+
+bool check(node n, node m){
+    return (n.a == m.a && n.b == m.b && n.c == m.c && n.d == m.d && n.e == m.e && n.f == m.f);
+}
+
+void solve(){
+    node n,m;
+    cin >> n.a >> n.b >> n.c >> n.d >> n.e >> n.f;
+    cin >> m.a >> m.b >> m.c >> m.d >> m.e >> m.f; 
+    // TH cơ sở nếu bảng a == bảng b
+    if (check(n,m)) {
+        cout << 0 << '\n'; return;
+    }
+    queue<pair<node,int>> q;
+    q.push({n,0});
+    while (q.size()){
+        node x = q.front().first; int d = q.front().second; q.pop();
+        if (check(n,m)){
+            cout << d << '\n'; return;
+        }
+        node k;
+        // trai
+        k.c = x.c; k.f = x.f; k.a = x.d;
+        k.b = x.a; k.d = x.e; k.e = x.b;
+        if (check(k,m)){
+            cout << d + 1 << '\n';
+            return;
+        }
+        q.push({k,d+1});
+
+        //phai
+        k.c = x.b; k.f = x.c; k.a = x.a;
+        k.b = x.e; k.d = x.d; k.e = x.f;
+        if (check(k,m)){
+            cout << d + 1 << '\n';
+            return;
+        }
+        q.push({k,d+1});
+    }
+}
+
+int main(){
+    int t; cin >> t;
+    while(t--){
+        solve();
+    }
+}
