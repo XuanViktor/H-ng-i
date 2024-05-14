@@ -1,0 +1,33 @@
+Bài 2. Bội số chỉ chứa 0 và 9
+Cho số tự nhiên N. Hãy tìm số nguyên dương X nhỏ nhất được tạo bởi số 9 và số 0 chia hết cho N. Ví dụ với N = 5 ta sẽ tìm ra X = 90.
+Input
+	Dòng đầu tiên ghi lại số lượng test T (T <= 100)
+	Những dòng kế tiếp mỗi dòng ghi lại một test. Mỗi test là một số tự nhiên N được ghi trên một dòng (N <= 100).
+Output
+	Đưa ra theo từng dòng số X nhỏ nhất chia hết cho N tìm được.
+
+vector<ll> res;
+void init(){
+    queue<string> q;
+    q.push("9"); res.push_back(9);
+    while (true){
+        // Take a first element on queue
+        string top = q.front(); q.pop();
+        if (top.size() == 11) break;
+        res.push_back(stoll(top + "0"));
+        res.push_back(stoll(top + "9"));
+        q.push(top + "0"); q.push(top + "9");
+    }
+}
+int main(){
+    init();
+    int t; cin >> t;
+    while (t--){
+        int n; cin >> n;
+        for (int i = 0; i < 10000; i++){
+            if (res[i] % n == 0){
+                cout << res[i]; break;
+            }
+        }
+    }
+}
