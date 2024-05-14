@@ -1,0 +1,43 @@
+Cho số tự nhiên n. Hãy in ra tất cả các số nhị phân từ 1 đến n.
+Input:
+	Dòng đầu tiên ghi lại số lượng test T (T <= 100)
+	Mỗi test là gồm 2 số l và r là 2 số muốn in ra cái giá nhị nhị phân từ l đến r
+Output
+	Đưa ra kết quả mỗi test trên một dòng
+
+Input
+2
+3 10
+1 5
+
+Output
+11 100 101 110 111 1000 1001 1010
+1 10 11 100 101
+
+#include "bits/stdc++.h"
+using namespace std;
+
+vector<string> res;
+
+void init(){
+    queue<string> q;
+    q.push("1"); res.push_back("1");
+    while (res.size() < 10000){
+        // Take a first element on queue
+        string top = q.front(); q.pop();
+        res.push_back(top + "0");
+        res.push_back(top + "1");
+        q.push(top + "0"); q.push(top + "1");
+    }
+}
+int main(){
+    init();
+    int t; cin >> t;
+    while (t--){
+        int l, r; cin >> l >> r;
+        for (int i = l-1; i < r; i++){
+            cout << res[i] << " ";
+        }
+        cout << endl;
+    }
+}
