@@ -1,0 +1,76 @@
+Cho số tự nhiên N và hai phép biến đổi (a), (b) dưới đây. 
+• Thao tác (a): Trừ N đi 1 (N=N-1). Ví dụ N=17, thao tác (a) biến đổi N = N-1 =16. 
+• Thao tác (b): N = max(u,v) nếu u * v =N (u>1, v>1). Ví dụ N=16, thao tác (b) có thể biến đổi N = max(2, 8)=8 hoặc N=max(4, 4)=4. 
+Chỉ được phép sử dụng hai thao tác (a) hoặc (b), hãy biến đổi N thành 1 sao số các thao tác (a), (b) được thực hiện ít nhất. 
+Ví dụ với N=17, số các phép (a), (b) nhỏ nhất biến đổi N thành 1 là 4 bước như sau: 
+- Thao tác (a): N = N-1 = 17-1 = 16. 
+- Thao tác (b): 16 = max(4,4) = 4. 
+- Thao tác (b): 4 = max(2,2) = 2. 
+- Thao tác (a): 2 = 2-1 = 1.
+
+Input Format
+• Dòng đầu tiên ghi lại số tự nhiên T là số lượng Test; • T dòng kế tiếp mỗi dòng ghi lại một bộ Test. Mỗi test là một số N
+Constraints
+1<=T<=100; 1<=N<10^9;
+Output Format
+• Đưa ra kết quả mỗi test theo từng dòng
+
+Sample Input 0
+7
+896
+99
+841
+880
+227
+870
+291
+Sample Output 0
+5
+6
+6
+5
+7
+5
+6
+
+int solve(int s){
+    queue<pair<int,int>> Q;
+    Q.push({s,0});
+    set<int> se;
+    se.insert(s);
+    while (!Q.empty()){
+        pair<int,int> x = Q.front();
+        Q.pop();
+        if (x.first == 1) return x.second;
+
+        // x.first - 1
+        if (x.first > 1 && se.count(x.first - 1) == 0){
+            Q.push({x.first - 1, x.second + 1});
+            se.insert(x.first - 1);
+        }
+
+        // max(u,v)
+        int n = x.first;
+        for (int i = 2; i <= sqrt(n); i++){
+            if (n % i == 0){
+                int u = i, v = n/i;
+                int tmp = max(u,v);
+                if (se.count(tmp) == 0){
+                    Q.push({tmp, x.second + 1});
+                }
+            }
+        }
+
+    }
+    return -1;
+}
+
+int main(){
+    int t; cin >> t;
+    while (t--){
+        int s; cin >> s;
+        cout << solve(s) << endl;
+    }
+    return 0;
+}
+
