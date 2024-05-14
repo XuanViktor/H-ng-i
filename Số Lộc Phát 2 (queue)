@@ -1,0 +1,46 @@
+[Hàng Đợi]. Bài 9. Số lộc phát 2
+Một số được gọi là lộc phát nếu chỉ có 2 chữ số 6 và 8. Cho số tự nhiên N. Hãy liệt kê các số lộc phát có không quá N chữ số.
+Input Format
+• Dòng đầu tiên ghi lại số tự nhiên T là số lượng bộ test (T<10); • T dòng kế tiếp mỗi dòng ghi số N (1
+Constraints
+N/A
+Output Format
+Dòng đầu tiên là số lượng số lộc phát tìm được. Dòng thứ hai in đáp án theo thứ tự tăng dần.
+Sample Input 0
+2
+2
+3
+Sample Output 0
+6
+6 8 66 68 86 88
+14
+6 8 66 68 86 88 666 668 686 688 866 868 886 888
+
+vector<string> res;
+void solve(){
+    queue<string> Q;
+    Q.push("6");
+    Q.push("8");
+    while(true){
+        string tmp = Q.front(); Q.pop();
+        if (tmp.size() == 19) break;
+        res.push_back(tmp);
+        Q.push(tmp + "6");
+        Q.push(tmp + "8");
+    }
+}
+
+int main(){
+    solve();
+    int t; cin >> t;
+    while (t--){
+        int n; cin >> n;
+        for (string x : res){
+            if (x.size() <= n){
+                cout << x << " ";
+            }
+        }
+        cout << endl;
+    }
+    return 0;
+}
