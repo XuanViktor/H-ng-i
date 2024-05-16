@@ -1,0 +1,65 @@
+[Hàng Đợi]. Bài 14. Chữ số khác biệt
+Cho hai số nguyên L, R. Hãy đưa ra số các số K nguyên dương trong khoảng [L, R] thỏa mãn điều kiện: 
+• Tất cả các chữ số của K đều khác nhau. 
+• Tất cả các chữ số của K đều nhỏ hơn hoặc bằng 5.
+Ví dụ với L = 4, R = 13 ta có 5 số thỏa mãn yêu cầu là 4, 5, 10, 12, 13,
+Input Format
+• Dòng đầu tiên đưa vào số lượng test T. • Dòng tiếp theo đưa vào các bộ test. Mỗi bộ test được là một cặp L, R được viết trên một dòng.
+Constraints
+• T, L, R thỏa mãn ràng buộc: 1≤T≤100; 0≤L≤R≤10^5.
+Output Format
+• Đưa ra kết quả mỗi test theo từng dòng.
+Sample Input 0
+8
+9 41
+91 163
+28 59
+12 38
+72 127
+48 68
+50 101
+22 100
+Sample Output 0
+17
+20
+15
+14
+8
+5
+5
+18
+
+vector<int> v;
+void solve(){
+    queue<string> q;
+    for (int i = 1; i <= 5; i++){
+        string tmp = to_string(i);
+        q.push(tmp);
+    }
+    while (!q.empty()){
+        int d[256] = {0};
+        string u = q.front(); q.pop();
+        v.push_back(stoi(u));
+        for (char c : u){
+            d[c] = 1;
+        }
+        for (char c = '0'; c <= '5'; c++){
+            if (!d[c]) q.push(u + c);
+        }
+    }
+}
+
+int main(){
+    FileIO();
+    solve();
+    int t; cin >> t;
+    while (t--){
+        int L, R; cin >> L >> R;
+        int cnt = 0;
+        for (int x : v){
+            if (x > R) break;
+            if (x >= L) cnt++;
+        }
+        cout << cnt << endl;
+    }
+}
