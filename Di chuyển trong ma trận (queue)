@@ -1,0 +1,71 @@
+[Hàng Đợi]. Bài 17. Di chuyển trong ma trận
+Cho ma trận A[M][N]. Nhiệm vụ của bạn hãy tìm số bước đi ít nhất dịch chuyển từ vị trí A[1][1] đến vị trí A[M][N]. 
+Biết mỗi bước đi ta chỉ được phép dịch chuyển đến vị trí A[i][j+A[i][j]] hoặc vị trí A[i+A[i][j]][j] bên trong ma trận.
+Input Format
+• Dòng đầu tiên đưa vào số lượng test T. 
+• Dòng tiếp theo đưa vào các bộ test. 
+Mỗi bộ test gồm hai phần: phần thứ nhất là hai số M, N; 
+phần thứ hai là các phần tử của ma trận A[][]; các số được viết cách nhau một vài khoảng trống.
+Constraints
+T, M, N, A[i][j] thỏa mãn ràng buộc: 1≤T≤100; 1≤M, N, A[i][j]≤10^3.
+Output Format
+Đưa ra kết quả mỗi test theo từng dòng. In ra -1 nếu không tìm được đáp án.
+Sample Input 0
+1
+3  3
+2  1  2
+1  1  1
+1  1  1
+Sample Output 0
+2
+
+#define pb push_back
+#define all(x) x.begin(), x.end()
+#define FOR(i, a, b)  for (int i = (a); i < (b); ++i) 
+#define fi first
+#define se second
+#define bit(n,i) ((n>>i)&1)
+#define pi pair<int,int>
+#define ppi pair<pair<int,int>, int>
+
+int n, m, a[1005][1005];
+bool visited[1005][1005];
+
+int bfs(){
+    memset(visited, false, sizeof(visited));
+    queue<ppi> q;
+    q.push({{1,1},0});
+    visited[1][1] = true;
+    while(!q.empty()){
+        auto it = q.front(); q.pop();
+        int i = it.fi.fi, j = it.fi.se, len = it.se;
+        if (i == n && j == m) return len;
+        int i1 = i + a[i][j], j1 = j + a[i][j];
+        if (i1 >= 1 && i1 <= n && !visited[i1][j]){
+            q.push({{i1,j},len + 1});
+            visited[i1][j] = true;
+        }
+        if (j1 >= 1 && j1 <= m && !visited[i][j1]){
+            q.push({{i,j1}, len + 1});
+            visited[i][j1] = true;
+        }
+    }
+}
+
+void solve(){
+    cin >> n >> m;
+    FOR(i,1,n+1){
+        FOR(j,1,m+1){
+            cin >> a[i][j];
+        }
+    }
+    cout << bfs() << endl;
+}
+
+int main(){
+    FileIO();
+    int t; cin >> t;
+    while (t--){
+        solve();
+    }
+}
