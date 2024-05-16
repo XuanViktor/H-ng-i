@@ -1,0 +1,68 @@
+[Hàng Đợi]. Bài 6. Số BDN SPOJ
+Ta gọi số nguyên dương K là một số BDN nếu các chữ số trong K chỉ bao gồm các 0 hoặc 1 có nghĩa. 
+Ví dụ số K = 1, 10, 101. Cho số tự nhiên N (N<=2^63). Hãy cho biết có bao nhiêu số BDN nhỏ hơn N. Ví dụ N=100 ta có 3 số BDN bao gồm các số: 1, 10, 11.
+Input Format
+Dòng đầu tiên ghi lại số tự nhiên T là số lượng Test; T dòng kế tiếp mỗi dòng ghi lại một bộ Test. Mỗi test là một số tự nhiên N.
+Constraints
+1<=T<=100; 1<=N<=2^63
+Output Format
+Đưa ra kết quả mỗi test theo từng dòng.
+Sample Input 0
+12
+27655
+16862
+30017
+12246
+26510
+6386
+3668
+6127
+27269
+24195
+20859
+5416
+Sample Output 0
+31
+31
+31
+31
+31
+15
+15
+15
+31
+31
+31
+15
+
+vector<ll> res;
+void sinh(){
+    queue<ll> q;
+    q.push(1);
+    while(!q.empty()){
+        ll u = q.front(); q.pop();
+        res.push_back(u);
+        if (u <= 1e18){
+            q.push(u*10);
+            q.push(u*10+1);
+        }
+    }
+}
+
+void solve(){
+    ll n; cin >> n;
+    int cnt = 0;
+    for (ll x : res){
+        if (x < n) cnt++;
+        else break;
+    }
+    cout << cnt << endl;
+}
+
+int main(){
+    sinh();
+    int t; cin >> t;
+    while (t--){
+        solve();
+    }
+}
