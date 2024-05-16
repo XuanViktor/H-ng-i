@@ -79,3 +79,64 @@ int main(){
         solve();
     }
 }
+
+// Cách 2 dùng string
+set<string> visited;
+string s, t;
+
+string xoay_trai(string s){
+    string res = s;
+    res[0] = s[3];
+    res[1] = s[0];
+    res[3] = s[4];
+    res[4] = s[1];
+    return res;
+}
+
+string xoay_phai(string s){
+    string res = s;
+    res[1] = s[4];
+    res[2] = s[1];
+    res[4] = s[5];
+    res[5] = s[2];
+    return res;
+}
+
+int bfs(){
+    queue<pair<string,int>> q;
+    q.push({s,0});
+    visited.insert(s);
+    while (!q.empty()){
+        auto it = q.front(); q.pop();
+        string u = it.first;
+        int len = it.second;
+        if (u == t) return len;
+        string t1 = xoay_trai(u);
+        string t2 = xoay_phai(u);
+        if (!visited.count(t1)){
+            q.push({t1, len + 1});
+            visited.insert(t1);
+        }
+        if (!visited.count(t2)){
+            q.push({t2, len + 1});
+            visited.insert(t2);
+        }
+    }
+}
+
+string tachXau(string s){
+    string res = "";
+    for (char c : s){
+        if (c != ' ') res += c;
+    }
+    return res;
+}
+
+int main(){
+    FileIO();
+    getline(cin,s);
+    getline(cin,t);
+    s = tachXau(s);
+    t = tachXau(t);
+    cout << bfs();
+}
