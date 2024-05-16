@@ -1,0 +1,73 @@
+[Hàng Đợi]. Bài 16. Knight SPOJ
+Cho một quân mã trên bàn cờ vua tại vị trí ST. Nhiệm vụ của bạn là hãy tìm số bước di chuyển ít nhất để đưa quân mã tới vị trí EN.
+
+Input Format
+Dòng đầu tiên là số lượng bộ test T (T ≤ 20). Mỗi test gồm 2 xâu dạng “xy” và “uv”, trong đó x, y là kí tự trong “abcdefgh” còn y, v là số thuộc 1, 2, 3, 4, 5, 6, 7, 8.
+Constraints
+N/A
+Output Format
+Với mỗi test, in ra đáp án tìm được trên một dòng. Nếu không thể tìm được đường in ra -1.
+Sample Input 0
+5
+b2 c6
+h4 b3
+g1 b2
+e2 c3
+f6 b2
+Sample Output 0
+3
+3
+4
+1
+4
+
+Link: https://www.spoj.com/PTIT/problems/SSAM419C/
+
+#define pb push_back
+#define all(x) x.begin(), x.end()
+#define FOR(i, a, b)  for (int i = (a); i < (b); ++i) 
+#define fi first
+#define se second
+#define bit(n,i) ((n>>i)&1)
+#define pi pair<int,int>
+#define ppi pair<pair<int,int>, int>
+
+int s1,s2,t1,t2;
+int dx[] = {-2,-2,-1,-1,1,1,2,2};
+int dy[] = {-1,1,-2,2,-2,2,-1,1};
+bool visited[10][10];
+
+int bfs(){
+    memset(visited,false,sizeof(visited));
+    queue<ppi> q;
+    q.push({{s1,s2},0});
+    visited[s1][s2] = true;
+    while (!q.empty()){
+        auto it = q.front(); q.pop();
+        int i = it.fi.fi, j = it.fi.se, len = it.se;
+        if (i == t1 && j == t2) return len;
+        for (int k = 0; k < 8; k++){
+            int i1 = i + dx[k], j1 = j + dy[k];
+            if (i1 >= 1 && i1 <= 8 && j1 >= 1 && j1 <= 8 && !visited[i1][j1]){
+                q.push({{i1,j1},len + 1});
+                visited[i1][j1] = true;
+            }
+        }
+    }
+    return -1;
+}
+
+void solve(){
+    string ST, EN; cin >> ST >> EN;
+    s1 = ST[1] - '0'; s2 = ST[0] - 'a' + 1;
+    t1 = EN[1] - '0'; t2 = EN[0] - 'a' + 1;
+    cout << bfs() << endl;
+}
+
+int main(){
+    FileIO();
+    int t; cin >> t;
+    while (t--){
+        solve();
+    }
+}
