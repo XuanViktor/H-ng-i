@@ -1,0 +1,123 @@
+2102G - HEXGAME - HEXGAME
+Link: https://thptchuyen.ntucoder.net/Problem/Details/9792
+
+#include "bits/stdc++.h"
+
+using namespace std;
+
+#define faster ios::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
+#define pb push_back
+#define all(x) x.begin(), x.end()
+#define FOR(i, a, b)  for (int i = (a); i < (b); ++i) 
+#define fi first
+#define se second
+#define bit(n,i) ((n>>i)&1)
+#define pi pair<int,int>
+#define ppi pair<pair<int,int>, int>
+
+void FileIO(){
+    #ifndef ONLINE_JUDGE
+    freopen("In.txt", "r", stdin);
+    freopen("Out.txt", "w", stdout);
+    #endif 
+    faster;
+}
+
+
+string Start = "", End = "1238004765";
+map<string, int> DS, DE;
+
+string S_Left(string S){
+    string T = "";
+    T = T + S[3] + S[0] + S[2] + S[7] + S[4] + S[1] + S[6] + S[8] + S[5] + S[9];
+    return T;
+}
+
+string S_Right(string S){
+    string T = "";
+    T = T + S[0] + S[4] + S[1] + S[3] + S[8] + S[5] + S[2] + S[7] + S[9] + S[6];
+    return T;
+}
+
+string E_Left(string S){
+    string T = "";
+    T = T + S[1] + S[5] + S[2] + S[0] + S[4] + S[8] + S[6] + S[3] + S[7] + S[9];
+    return T;
+}
+
+string E_Right(string S){
+    string T = "";
+    T = T + S[0] + S[2] + S[6] + S[3] + S[1] + S[5] + S[9] + S[7] + S[4] + S[8];
+    return T;
+}
+
+void BFS_S(string S){
+    queue<string> Q;
+    Q.push(S);
+    DS[S] = 0;
+
+    while (!Q.empty()){
+        string u = Q.front(); Q.pop();
+
+        string A = S_Left(u);
+        string B = S_Right(u);
+
+        if (!DS.count(A)){
+            DS[A] = DS[u] + 1;
+            Q.push(A);
+        }
+
+        if (!DS.count(B)) {
+            DS[B] = DS[u] + 1;
+            Q.push(B);
+        }
+
+        if (DS[Q.back()] >= 15)
+            break;
+    }
+}
+
+void BFS_E(string S){
+    queue<string> Q;
+    Q.push(S);
+    DE[S] = 0;
+
+    while (!Q.empty()){
+        string u = Q.front();
+        Q.pop();
+
+        if (DS.count(u)){
+            cout << DS[u] + DE[u];
+            return;
+        }
+
+        string A = E_Left(u);
+        string B = E_Right(u);
+
+        if (!DE.count(A)){
+            DE[A] = DE[u] + 1;
+            Q.push(A);
+        }
+
+        if (!DE.count(B)){
+            DE[B] = DE[u] + 1;
+            Q.push(B);
+        }
+
+        if (DE[Q.back()] >= 15)
+            break;
+    }
+}
+
+void solve(){
+    for (int i = 1; i <= 10; ++i){
+        int a; cin >> a;
+        Start = Start + char(a + '0');
+    }
+    BFS_S(Start);
+    BFS_E(End);
+}
+
+int main(){
+    solve();
+}
