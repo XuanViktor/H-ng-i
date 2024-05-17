@@ -1,0 +1,100 @@
+[Hàng Đợi]. Bài 15. Biến đổi hợp lệ
+Cho cặp số S và T là các số nguyên tố có 4 chữ số (Ví dụ S = 1033, T = 8197 là các số nguyên tố có 4 chữ số). 
+Hãy viết chương trình tìm cách dịch chuyển S thành T thỏa mãn đồng thời những điều kiện dưới đây: 
+a. Mỗi phép dịch chuyển chỉ được phép thay đổi một chữ số của số ở bước trước đó 
+(ví dụ nếu S=1033 thì phép dịch chuyển S thành 1733 là hợp lệ);
+b. Số nhận được cũng là một số nguyên tố có 4 chữ số 
+(ví dụ nếu S=1033 thì phép dịch chuyển S thành 1833 là không hợp lệ, và S dịch chuyển thành 1733 là hợp lệ);
+c. Số các bước dịch chuyển là ít nhất. Ví dụ số các phép dịch chuyển ít nhất để S = 1033 thành T = 8179 là 6 bao gồm các phép dịch chuyển như sau:
+8179 8779 3779 3739 3733 1733 1033.
+Input Format
+• Dòng đầu tiên đưa vào số lượng test T (T≤100) • Những dòng kế tiếp mỗi dòng đưa vào một test. Mỗi test là một bộ đôi S, T.
+Constraints
+N/A
+Output Format
+• Đưa ra kết quả mỗi test theo từng dòng.
+Sample Input 0
+8
+3727 4649
+3989 5347
+1249 5821
+9857 4603
+4903 7949
+3533 9337
+7949 1087
+8867 6277
+Sample Output 0
+5
+5
+5
+6
+4
+4
+5
+4
+
+#define pb push_back
+#define all(x) x.begin(), x.end()
+#define FOR(i, a, b)  for (int i = (a); i < (b); ++i) 
+#define fi first
+#define se second
+#define bit(n,i) ((n>>i)&1)
+#define pi pair<int,int>
+#define ppi pair<pair<int,int>, int>
+
+int s,t;
+bool visited[10005];
+bool prime[10005];
+
+void sang(){
+    FOR(i,2,10005+1) prime[i] = true;
+    int n = sqrt(10005);
+    FOR(i,2,n+1){
+        if (prime[i]){
+            for (int j = i*i; j <= 10005; j+= i){
+                prime[j] = false;
+            }
+        }
+    }
+}
+
+int bfs(){
+    queue<pair<int,int>> q;
+    q.push({s,0});
+    visited[s] = true;
+    while (!q.empty()){
+        auto it = q.front(); q.pop();
+        string u = to_string(it.first);
+        int len = it.second;
+        if (it.first == t) return len;
+        for (int i = 0; i < 4; i++){
+            char st = '0';
+            if (i == 0) st = '1';
+            string tmp = u;
+            for (char c = st; c <= '9'; c++){
+                tmp[i] = c;
+                int tmp_num = stoi(tmp);
+                if (!visited[tmp_num] && prime[tmp_num]){
+                    q.push({tmp_num, len + 1});
+                    visited[tmp_num] = true;
+                }
+            }
+        }
+    }
+    return -1;
+}
+
+void solve(){
+    memset(visited,false,sizeof(visited));
+    cin >> s >> t;
+    cout << bfs() << endl;
+}
+
+int main(){
+    FileIO();
+    sang();
+    int t; cin >> t;
+    while(t--){
+        solve();
+    }
+}
