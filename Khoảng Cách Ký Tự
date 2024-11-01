@@ -23,14 +23,10 @@ Output
 void solve(){
     int k; cin >> k;
     string s; cin >> s;
-    if (k >= s.size()){
-        cout << 0 << '\n';
-        return;
-    }
 
     int cnt[300] = {0};
     for (int i = 0; i < s.size(); i++) cnt[s[i] - 'A']++;
-    priority_queue<int,vector<int>> q;
+    priority_queue<int> q;
     for (int i = 0; i < 299; i++){
         if (cnt[i] >= 1) q.push(cnt[i]);
     }
@@ -48,6 +44,7 @@ void solve(){
 }
 
 int main(){
+    FileIO();
     int t; cin >> t;
     while (t--){
         solve();
