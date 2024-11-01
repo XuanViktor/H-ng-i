@@ -66,3 +66,29 @@ int main(){
         solve();
     }
 }
+
+// Cách 2
+
+int main(){
+    FileIO();
+    vector<long long> vi;
+    queue<string> q1;
+
+    q1.push("1");
+
+    while (1){
+        string u = q1.front(); q1.pop();
+        long long n = stoll(u);
+        if (n > 1e18) break;
+        vi.push_back(n);
+        q1.push(u + "0");
+        q1.push(u + "1");
+
+    }
+
+    int t; cin >> t;
+    while (t--){
+        long long n; cin >> n;
+        auto it = lower_bound(begin(vi), end(vi), n);
+        cout << it - vi.begin() << endl;
+    }
